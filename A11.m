@@ -3,19 +3,19 @@ home
 clear
 close all
 
-dt = 0.2;                      % Zeitinkrement
-te = 200;                      % Endzeit (muss größer als Signallänge sein!)
-t = 0:dt:te;                   % Zeitvektor
-s = 3*(sigma(t)-sigma(t-2));   % s(t)
-df = 1/te;                     % Frequenzauflösung
+dt = 0.2;
+tendezeit = 20;
+t = 0:dt:tendezeit;
+s = 3*(sigma(t)-sigma(t-2));
+df = 1/tendezeit;
 fmax = 1/dt/2;
-f = -fmax:df:fmax;             % Frequenzvektor
+f = -fmax:df:fmax;
 
-y = 9*(t.*sigma(t) - 2*(t-2).*sigma(t-2) + (t-4).*sigma(t-4));
 
-Y = fftshift(fft(y)*dt);       % Fast Fourier-Transformation berechnen
-                              
-% Keine Phasenkompensation zwischen y(t) und y erforderlich!
+y = dt*conv(s,s);
+y = y(1:length(s)); 
+Y = fftshift(fft(y)*dt);
+
 subplot(3,1,1)
 plot(t,y,'g','LineWidth',3)
 title('y(t)')
